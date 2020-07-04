@@ -31,7 +31,6 @@ export default {
         width: 100%;
         background-color: #E9ECEA;
         position: static;
-        overflow: hidden;
     }
     #item-1{
         position: absolute;
