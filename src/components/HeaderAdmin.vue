@@ -4,7 +4,7 @@
             <img  src="..\assets\logo-final-v2.png">
         </b-col>
         <b-col class = "right">
-            <b-button variant="light" v-show = isLogOutActive @click="logOut">Logout</b-button>
+            <b-button id = "my-button" v-show = isLogOutActive @click="logOut">Logout</b-button>
         </b-col>
     </b-row>
 </template>
@@ -42,5 +42,15 @@ export default {
     }
     img{
         width: 200px;
+    }
+    #my-button{
+      position: absolute;
+      top: 20%;
+      right: 5%;
+      border-color: transparent;
+      color: black;
+      box-shadow: 2px 2px 8px black;
+      background-color: #E9ECEA;
+      font-weight: bold;
     }
 </style>

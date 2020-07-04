@@ -1,13 +1,13 @@
 <template>
     <div class = "my-navbar">
         <b-nav vertical class = "w-25" variant ="dark">
-            <b-nav-item id= "item-1" class="nav-text" to="/RawMaterial" @click = "reportsInvisible"><p>Manage and view raw material stock</p></b-nav-item>
-            <b-nav-item id = "item-2" class="nav-text" to="/CosmeticFormula" @click = "reportsInvisible"><p>Cosmetic formula</p></b-nav-item>
-            <b-nav-item id = "item-3" class="nav-text" to="/InventoryReport" :class = "{active: isActive}" @click = "reportsVisible"><p>Reports</p></b-nav-item>
-            <b-nav-item id = "item-4" class="nav-text item-3" to="/InventoryReport" :class = "{invisible: hideReport}"><p>Inventory report</p></b-nav-item>
-            <b-nav-item id = "item-5" class="nav-text item-3" to="/UsageReport" :class = "{invisible: hideReport}"><p>Usage report</p></b-nav-item>
-            <b-nav-item id = "item-6" class="nav-text item-3" to="/CosmeticFormulaReport" :class = "{invisible: hideReport}"><p>Cosmetic formula report</p></b-nav-item>
-            <p class = "copyrights"> ©2020 Elizabeth By Design</p>
+            <b-nav-item id= "item-1" class="nav-text" to="/home"><p>Home</p></b-nav-item>
+            <b-nav-item id = "item-2" class="nav-text" to="/aboutus"><p>About us</p></b-nav-item>
+            <b-nav-item id = "item-3" class="nav-text" to="/where"><p>Where are you going?</p></b-nav-item>
+            <b-nav-item id = "item-4" class="nav-text" to="/understanding"><p>Understanding your style</p></b-nav-item>
+            <b-nav-item id = "item-5" class="nav-text" to="/measurements"><p>Measurements</p></b-nav-item>
+            <b-nav-item id = "item-6" class="nav-text" to="/contactus"><p>Contact us</p></b-nav-item>
+            <p class = "copyrights">©2020 Elizabeth By Design</p>
         </b-nav>
     </div>
 </template>
@@ -15,19 +15,11 @@
 export default {
   data () {
     return {
-      hideReport: true,
-      isActive: false
+      
     }
   },
   methods: {
-    reportsVisible: function () {
-      this.hideReport = false
-      this.isActive = true
-    },
-    reportsInvisible: function () {
-      this.hideReport = true
-      this.isActive = false
-    }
+ 
   }
 }
 </script>
@@ -39,6 +31,7 @@ export default {
         width: 100%;
         background-color: #E9ECEA;
         position: static;
+        overflow: hidden;
     }
     #item-1{
         position: absolute;
@@ -48,32 +41,32 @@ export default {
     }
     #item-2{
         position: absolute;
-        top: 110px;
+        top: 80px;
         font-size: 100%;
         text-align: left;
     }
-     #item-3{
+    #item-3{
         position: absolute;
-        top: 170px;
+        top: 140px;
         font-size: 100%;
         text-align: left;
     }
     #item-4{
         position: absolute;
-        top: 205px;
-        font-size: 90%;
+        top: 200px;
+        font-size: 100%;
         text-align: left;
     }
     #item-5{
         position: absolute;
-        top: 235px;
-        font-size: 90%;
+        top: 260px;
+        font-size: 100%;
         text-align: left;
     }
     #item-6{
         position: absolute;
-        top: 265px;
-        font-size: 90%;
+        top: 320px;
+        font-size: 100%;
         text-align: left;
     }
     .copyrights{
