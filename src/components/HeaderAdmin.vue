@@ -1,7 +1,11 @@
 <template>
     <b-row class = "header">
         <b-col class = "left">
+<<<<<<< HEAD
             <img  src="../assets/logo-final-v2.png">
+=======
+            <img src="../assets/logo-final-v2.png">
+>>>>>>> 3f1dca7d7a3f75887a2e3d2b76fa5e95ea997500
         </b-col>
         <b-col class = "right">
             <b-button id = "my-button" v-show = isLogOutActive @click="logOut">Logout</b-button>
