@@ -1,7 +1,7 @@
 <template>
     <div class = "my-navbar">
         <b-nav vertical class = "w-25" variant ="dark">
-            <b-nav-item id= "item-1" class="nav-text" to="/home"><p>Home</p></b-nav-item>
+            <b-nav-item id= "item-1" class="nav-text" to="/"><p>Home</p></b-nav-item>
             <b-nav-item id = "item-2" class="nav-text" to="/aboutus"><p>About us</p></b-nav-item>
             <b-nav-item id = "item-3" class="nav-text" to="/where"><p>Where are you going?</p></b-nav-item>
             <b-nav-item id = "item-4" class="nav-text" to="/understanding"><p>Understanding your style</p></b-nav-item>
