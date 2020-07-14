@@ -3,23 +3,32 @@
     <b-row>
       <b-col>
         <b-card class="mt-3" :header="title">
-          <b-form @submit="onSubmit">
+          <b-form @submit="updateFooter">
             <b-form-group id="input-group-email" label="Email" label-for="input-email">
-              <b-form-input id="input-email" type="email" value="email@email.com" required></b-form-input>
+              <b-form-input id="input-email" type="email" v-model="footerInfo.info.email" required></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-2" label="Address" label-for="input-address">
-              <b-form-input id="input-address" value="Auckland, New Zealand" required></b-form-input>
+            <b-form-group id="input-group-address" label="Address" label-for="input-address">
+              <b-form-input id="input-address" v-model="footerInfo.info.address" required></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-3" label="Mobile" label-for="input-mobile">
-              <b-form-input id="input-mobile" value="022 123 1234" required></b-form-input>
+            <b-form-group id="input-group-mobile" label="Mobile" label-for="input-mobile">
+              <b-form-input id="input-mobile" v-model="footerInfo.info.mobile" required></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-3" label="Mobile" label-for="input-mobile">
-              <b-form-input id="input-mobile" value="022 123 1234" required></b-form-input>
+            <b-form-group id="input-group-facebook" label="Facebook" label-for="input-facebook">
+              <b-form-input id="input-facebook" v-model="footerInfo.links.facebook" required></b-form-input>
             </b-form-group>
 
+            <b-form-group id="input-group-instagram" label="Instagram" label-for="input-instagram">
+              <b-form-input id="input-instagram" v-model="footerInfo.links.instagram" required></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-twitter" label="Twitter" label-for="input-twitter">
+              <b-form-input id="input-twitter" v-model="footerInfo.links.twitter" required></b-form-input>
+            </b-form-group>
+
+            <alert :message=message v-if="showMessage"></alert>
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
         </b-card>
@@ -30,11 +39,27 @@
 
 <script>
 import axios from "axios";
+import Alert from './Alert.vue';
 
 export default {
   data() {
     return {
-      title: "Footer Information"
+      title: 'Footer Information',
+      id: '',
+      footerInfo: {
+        info: {
+          address: '',
+          email: '',
+          mobile: '',
+        },
+        links: {
+          facebook: '',
+          instagram: '',
+          twitter: '',
+        },
+      },
+      message: '',
+      showMessage: false,
     };
   },
   methods: {
@@ -43,24 +68,36 @@ export default {
       axios
         .get(endpoint)
         .then(res => {
-          console.log(res);
-          // this.info.address = res.data.info.address;
-          // this.info.email = res.data.info.email;
-          // this.info.mobile = res.data.info.mobile;
-          // this.links.facebook = res.data.links.facebook;
-          // this.links.instagram = res.data.links.instagram;
-          // this.links.twitter = res.data.links.twitter;
+          this.id = res.data._id.$oid;
+          this.footerInfo.info = res.data.info;
+          this.footerInfo.links = res.data.links;
+          console.log('ObjectID: ' + this.id);
         })
         .catch(error => {
           console.error(error);
         });
     },
-    onSubmit() {
-      // do onsubmit
+    updateFooter(e) {
+      e.preventDefault();
+      const endpoint= `http://localhost:5000/footer/${this.id}`;
+      axios
+        .put(endpoint, this.footerInfo)
+        .then(() => {
+          this.getFooterInfo();
+          this.message = 'Footer Updated'
+          this.showMessage = true;
+        })
+        .catch((error) => {
+          console.error(error);
+          this.getFooterInfo();
+        });
     }
   },
   created() {
     this.getFooterInfo();
+  },
+  components: {
+    alert: Alert
   }
 };
 </script>
