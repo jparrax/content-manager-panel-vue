@@ -1,9 +1,9 @@
 <template>
   <b-container id="this-container">
 
-    <b-row>
+    <b-row v-for="component in object.data" :key="component">
       <b-col>
-        <b-card class="mt-3" header="component">
+        <b-card class="mt-3" :header="component">
             <b-form @submit="onSubmit">
 
               <b-form-group
@@ -27,7 +27,7 @@
                 ></b-form-input>
               </b-form-group>
 
-              <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+              <b-form-group id="input-group-2" label="Text:" label-for="input-2">
                 <b-form-textarea
                   id="textarea"
                   rows="3"
@@ -50,7 +50,7 @@
   export default {
     data() {
       return {
-        
+        object:""
       }
     },
     methods: {
@@ -58,7 +58,8 @@
       const endpoint = 'http://localhost:5000/home';
       axios.get(endpoint)
         .then((res) => {
-          console.log(res)
+          this.object = res;
+          console.log(res);
         })
         .catch((error) => {
           console.error(error);
