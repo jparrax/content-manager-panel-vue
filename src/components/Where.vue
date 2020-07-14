@@ -3,7 +3,7 @@
 
     <b-row v-for="tab in object.data" :key="tab">
       <b-col>
-        <b-card class="mt-3">
+        <b-card class="mt-3" header-bg-variant="primary">
             <template v-slot:header>
               <p class="mb-0 font-weight-bold">{{ tab.title }}</p>
             </template>
@@ -14,7 +14,7 @@
                 label="Title:"
               >
                 <b-form-input
-                  :id="'title-' + tab.title"
+                  :class="tab.title"
                   type="text"
                   v-model="tab.title"
                 ></b-form-input>
@@ -24,7 +24,7 @@
                 label="Width:"
               >
                 <b-form-input
-                  :id="'widht-' + tab.title"
+                  :class="tab.title"
                   type="text"
                   v-model="tab.width"
                 ></b-form-input>
@@ -33,40 +33,36 @@
               <!-- Cards -->
               <b-row v-for="card in tab.cards" :key="card">
                 <b-col>
-                  <b-card class="mt-3" :header="card.title" header-bg-variant="primary" header-text-variant="white">
-                      <b-form @submit="onSubmit">
+                  <b-card class="mt-3" :header="card.title">
+                    <b-form-group
+                      label="Title:"
+                    >
+                      <b-form-input
+                        :class="tab.title"
+                        type="text"
+                        v-model="card.title">
+                        </b-form-input>
+                    </b-form-group>
 
-                        <b-form-group
-                          label="Title:"
-                        >
-                          <b-form-input
-                            :class="'card-title-' + tab.title"
-                            type="text"
-                            v-model="card.title"
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group id="input-group-2" label="Text:" label-for="input-2">
-                          <b-form-textarea
-                            :class="'card-content-' + tab.title"
-                            rows="6"
-                            v-model="card.content"
-                          ></b-form-textarea>
-                        </b-form-group>
-
-                    </b-form>
+                    <b-form-group 
+                      label="Text:">
+                      <b-form-textarea
+                        :class="tab.title"
+                        rows="6"
+                        v-model="card.content">
+                        </b-form-textarea>
+                    </b-form-group>
                   </b-card>
                 </b-col>
               </b-row>
 
               <!-- Button -->
               <b-button 
-                class="mt-2" 
+                class="mt-4" 
                 :id="tab.title" 
                 variant="primary" 
-                @click="getFormElements"
-                >
-                Submit
+                @click="getFormElements">
+                Save
               </b-button>
 
           </b-form>
@@ -103,15 +99,10 @@
       },
       getFormElements() {
         let event = window.event;
-        let inputElements = document.forms[event.target.getAttribute("id")].getElementsByTagName("input");
-        let textAreaElements = document.forms[event.target.getAttribute("id")].getElementsByTagName("textarea");
-        let input;
-        let textArea;
-        for(input in inputElements){
-          console.log(inputElements[input].value)
-        }
-        for(textArea in textAreaElements){
-          console.log(textAreaElements[textArea].value);
+        let formElements = document.forms[event.target.getAttribute("id")].getElementsByClassName(event.target.getAttribute("id"));
+        let formElement;
+        for(formElement of formElements){
+          console.log(formElement.value);
         }
       }
     },
