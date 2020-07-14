@@ -28,7 +28,10 @@
               <b-form-input id="input-twitter" v-model="footerInfo.links.twitter" required></b-form-input>
             </b-form-group>
 
-            <alert :message=message v-if="showMessage"></alert>
+            <div>
+              <b-alert variant="success" :show="showMessage">{{ message }}</b-alert>
+              <br>
+            </div>
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
         </b-card>
@@ -39,7 +42,6 @@
 
 <script>
 import axios from "axios";
-import Alert from './Alert.vue';
 
 export default {
   data() {
@@ -91,13 +93,10 @@ export default {
           console.error(error);
           this.getFooterInfo();
         });
-    }
+    },
   },
   created() {
     this.getFooterInfo();
   },
-  components: {
-    alert: Alert
-  }
 };
 </script>
