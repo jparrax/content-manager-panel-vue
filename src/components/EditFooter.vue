@@ -16,6 +16,10 @@
               <b-form-input id="input-mobile" value="022 123 1234" required></b-form-input>
             </b-form-group>
 
+            <b-form-group id="input-group-3" label="Mobile" label-for="input-mobile">
+              <b-form-input id="input-mobile" value="022 123 1234" required></b-form-input>
+            </b-form-group>
+
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
         </b-card>
