@@ -55,7 +55,7 @@
 
               <!-- Button -->
               <br>
-              <b-button type="submit" variant="primary">Submit</b-button>
+              <b-button :id="tab.title" type="submit" variant="primary">Submit</b-button>
 
           </b-form>
         </b-card>
