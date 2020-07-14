@@ -14,8 +14,8 @@
   export default {
     data () {
       return{
-        isLoginActive: true,
-        isAdminActive: false
+        isLoginActive: false,
+        isAdminActive: true
       }
     },
     components: {

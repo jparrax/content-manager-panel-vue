@@ -1,15 +1,20 @@
 <template>
-  <b-container id="this-container">
+  <b-container>
 
     <b-row v-for="tab in object.data" :key="tab">
       <b-col>
-        <b-card class="mt-3" :header="tab.title">
-            <b-form @submit="onSubmit">
+        <b-card class="mt-3">
+            <template v-slot:header>
+              <p class="mb-0 font-weight-bold">{{ tab.title }}</p>
+            </template>
+            <b-form :name="tab.title" @submit="onSubmit">
 
+              <!-- Tab info -->
               <b-form-group
                 label="Title:"
               >
                 <b-form-input
+                  :id="'title-' + tab.title"
                   type="text"
                   v-model="tab.title"
                 ></b-form-input>
@@ -19,6 +24,7 @@
                 label="Width:"
               >
                 <b-form-input
+                  :id="'widht-' + tab.title"
                   type="text"
                   v-model="tab.width"
                 ></b-form-input>
@@ -34,6 +40,7 @@
                           label="Title:"
                         >
                           <b-form-input
+                            :class="'card-title-' + tab.title"
                             type="text"
                             v-model="card.title"
                           ></b-form-input>
@@ -41,9 +48,8 @@
 
                         <b-form-group id="input-group-2" label="Text:" label-for="input-2">
                           <b-form-textarea
-                            id="textarea"
-                            rows="3"
-                            max-rows="6"
+                            :class="'card-content-' + tab.title"
+                            rows="6"
                             v-model="card.content"
                           ></b-form-textarea>
                         </b-form-group>
@@ -54,8 +60,14 @@
               </b-row>
 
               <!-- Button -->
-              <br>
-              <b-button :id="tab.title" type="submit" variant="primary">Submit</b-button>
+              <b-button 
+                class="mt-2" 
+                :id="tab.title" 
+                variant="primary" 
+                @click="getFormElements"
+                >
+                Submit
+              </b-button>
 
           </b-form>
         </b-card>
@@ -74,21 +86,33 @@
       }
     },
     methods: {
-    getHomeInfo() {
-      const endpoint = 'http://localhost:5000/where';
-      axios.get(endpoint)
-        .then((res) => {
-          this.object = res;
-          console.log(res);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
+      getHomeInfo() {
+        const endpoint = 'http://localhost:5000/where';
+        axios.get(endpoint)
+          .then((res) => {
+            this.object = res;
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      },
       onSubmit(evt) {
         evt.preventDefault()
         alert(JSON.stringify(this.form))
       },
+      getFormElements() {
+        let event = window.event;
+        let inputElements = document.forms[event.target.getAttribute("id")].getElementsByTagName("input");
+        let textAreaElements = document.forms[event.target.getAttribute("id")].getElementsByTagName("textarea");
+        let input;
+        let textArea;
+        for(input in inputElements){
+          console.log(inputElements[input].value)
+        }
+        for(textArea in textAreaElements)
+        console.log(textAreaElements[textArea].value);
+      }
     },
     created() {
       this.getHomeInfo();
