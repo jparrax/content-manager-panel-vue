@@ -110,8 +110,9 @@
         for(input in inputElements){
           console.log(inputElements[input].value)
         }
-        for(textArea in textAreaElements)
-        console.log(textAreaElements[textArea].value);
+        for(textArea in textAreaElements){
+          console.log(textAreaElements[textArea].value);
+        }
       }
     },
     created() {
