@@ -28,7 +28,7 @@ export default {
     padding: 0%;
   }
   .scrollable{
-    height: 525px;
+    height: 825px;
     overflow: auto;
   }
 </style>
