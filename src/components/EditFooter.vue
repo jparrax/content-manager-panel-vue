@@ -29,7 +29,7 @@
             </b-form-group>
 
             <div>
-              <b-alert variant="success" :show="showMessage">{{ message }}</b-alert>
+              <b-alert variant="success" :show="showMessage" @dismissed="showMessage=false" dismissible>{{ message }}</b-alert>
               <br>
             </div>
             <b-button type="submit" variant="primary">Submit</b-button>
