@@ -86,7 +86,7 @@ export default {
     p{
         color: black;
     }
-    .router-link-active{
+    .router-link-exact-active{
         font-weight: bold;
     }
     .invisible{
