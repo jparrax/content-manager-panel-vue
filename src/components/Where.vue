@@ -103,8 +103,7 @@
     data() {
       return {
         id: "",        
-        object:"",
-        message: '',
+        object:""
       }
     },
     methods: {
