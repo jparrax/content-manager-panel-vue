@@ -134,7 +134,12 @@ export default {
     },
     updateAboutUs(e) {
       e.preventDefault();
+      this.aboutUsInfo.card_1.text = this.preformatText(this.aboutUsInfo.card_1.text);
+      this.aboutUsInfo.card_2.text = this.preformatText(this.aboutUsInfo.card_2.text);
+      this.aboutUsInfo.card_3.text = this.preformatText(this.aboutUsInfo.card_3.text);
+      this.aboutUsInfo.banner.text = this.preformatText(this.aboutUsInfo.banner.text);
       console.log(JSON.stringify(this.aboutUsInfo, null, 2));
+      
       const endpoint = `http://localhost:5000/about_us/${this.id}`;
       axios
         .put(endpoint, this.aboutUsInfo)
@@ -149,6 +154,9 @@ export default {
     },
     formatText(text) {
       return text ? text.replace(/\\n/g, '\n') : '';
+    },
+    preformatText(text) {
+      return text ? text.replace(/\n/g, '\\n') : '';
     }
   },
   created() {
