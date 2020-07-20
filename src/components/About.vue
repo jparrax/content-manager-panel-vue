@@ -8,25 +8,70 @@
           header-bg-variant="primary"
           border-variant="primary"
         >
-          <b-form @submit="getAboutUsInfo">
+          <b-form @submit="updateAboutUs">
             
-            <b-form-group id="input-group-card1" label="Main Header" label-for="input-card1">
+            <b-form-group id="input-group-card1" label="Section 1" label-for="input-card1">
               <b-form-input id="input-card1" v-model="aboutUsInfo.card_1.title" required></b-form-input>
             </b-form-group>
-            <b-row v-for="(card_text, index) in aboutUsInfo.card_1.texts" :key="index">
+            <b-row>
               <b-col>
                 <b-form-group>
-                  <b-form-input v-model="card_text.value">
-                    {{ card_text }}
-                  </b-form-input>
+                  <b-form-textarea
+                    id="textarea-1"
+                    v-model="aboutUsInfo.card_1.text"
+                    rows="3"
+                  >
+                  </b-form-textarea>
                 </b-form-group>
               </b-col>
             </b-row>
 
-              <div>
-                <b-alert variant="success" :show="showMessage" @dismissed="showMessage=false" dismissible>{{ message }}</b-alert>
-              </div>
-              <b-button type="submit" variant="primary">Save</b-button>
+            <b-row>
+              <b-col>
+                <b-form-group>
+                  <b-form-textarea
+                    id="textarea-2"
+                    v-model="aboutUsInfo.card_2.text"
+                    rows="3"
+                  >
+                  </b-form-textarea>
+                </b-form-group>
+              </b-col>
+            </b-row>
+
+            <b-row>
+              <b-col>
+                <b-form-group>
+                  <b-form-textarea
+                    id="textarea-3"
+                    v-model="aboutUsInfo.card_3.text"
+                    rows="3"
+                  >
+                  </b-form-textarea>
+                </b-form-group>
+              </b-col>
+            </b-row>
+
+            <b-form-group id="input-group-card1" label="Banner" label-for="input-card1">
+              <b-form-input id="input-card1" v-model="aboutUsInfo.banner.title" required></b-form-input>
+            </b-form-group>
+            <b-row>
+              <b-col>
+                <b-form-group>
+                  <b-form-textarea
+                    id="textarea-3"
+                    v-model="aboutUsInfo.banner.text"
+                    rows="3"
+                  >
+                  </b-form-textarea>
+                </b-form-group>
+              </b-col>
+            </b-row>
+
+            <div>
+              <b-alert variant="success" :show="showMessage" @dismissed="showMessage=false" dismissible>{{ message }}</b-alert>
+            </div>
+            <b-button type="submit" variant="primary">Save</b-button>
           </b-form>
         </b-card>
       </b-col>
@@ -44,29 +89,25 @@ export default {
       id: '',
       aboutUsInfo: {
         card_1: {
-          title: 'First title',
-          texts: [
-            {i: 1, value: 'A'},
-            {i: 2, value: 'B'},
-            {i: 3, value: 'C'},
-          ]
+          title: '',
+          texts: ''
         },
         card_2: {
           title: '',
-          texts: []
+          texts: ''
         },
         card_3: {
           title: '',
-          texts: []
+          texts: ''
         },
         banner: {
           title: '',
-          texts: []
+          texts: ''
         },
         timelines: []
       },
       message: '',
-      showMessage: false,
+      showMessage: false
     };
   },
   methods: {
@@ -81,7 +122,11 @@ export default {
           this.aboutUsInfo.card_3 = res.data.card_3;
           this.aboutUsInfo.banner = res.data.banner;
           this.aboutUsInfo.timelines = res.data.timelines;
-          console.log('ObjectID: ' + this.id);
+
+          this.aboutUsInfo.card_1.text = this.formatText(this.aboutUsInfo.card_1.text);
+          this.aboutUsInfo.card_2.text = this.formatText(this.aboutUsInfo.card_2.text);
+          this.aboutUsInfo.card_3.text = this.formatText(this.aboutUsInfo.card_3.text);
+          this.aboutUsInfo.banner.text = this.formatText(this.aboutUsInfo.banner.text);
         })
         .catch(error=> {
           console.error(error);
@@ -89,7 +134,25 @@ export default {
     },
     updateAboutUs(e) {
       e.preventDefault();
+      console.log(JSON.stringify(this.aboutUsInfo, null, 2));
+      const endpoint = `http://localhost:5000/about_us/${this.id}`;
+      axios
+        .put(endpoint, this.aboutUsInfo)
+        .then(() => {
+          this.getAboutUsInfo();
+          this.message = 'About Us Information Updated';
+          this.showMessage = true;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    formatText(text) {
+      return text ? text.replace(/\\n/g, '\n') : '';
     }
-  }
+  },
+  created() {
+    this.getAboutUsInfo();
+  },
 }
 </script>
