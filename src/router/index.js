@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from "@/components/Home.vue"
 import About from "@/components/About.vue"
 import Where from "@/components/Where.vue"
+import Style from "@/components/Style.vue"
 import Contact from "@/components/Contact.vue"
 import Footer from "@/components/EditFooter.vue"
 
@@ -26,6 +27,11 @@ export default new VueRouter({
       path: '/where',
       name: 'Where are you going',
       component: Where,
+    },
+    {
+      path: '/understanding',
+      name: 'Understanding Your Style',
+      component: Style,
     },
     {
       path: '/contactus',
