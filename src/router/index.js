@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from "@/components/Home.vue"
+import About from "@/components/About.vue"
 import Where from "@/components/Where.vue"
 import Contact from "@/components/Contact.vue"
 import Footer from "@/components/EditFooter.vue"
@@ -15,6 +16,11 @@ export default new VueRouter({
       path: '/',
       name: 'Home',
       component: Home,
+    },
+    {
+      path: '/aboutus',
+      name: 'About Us',
+      component: About,
     },
     {
       path: '/where',
