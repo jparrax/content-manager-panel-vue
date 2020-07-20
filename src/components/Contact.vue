@@ -80,7 +80,7 @@ export default {
         .put(endpoint, this.contactInfo)
         .then(() => {
           this.getContactUsInfo();
-          this.message = 'Footer Updated';
+          this.message = 'Contact Us Information Updated';
           this.showMessage = true;
         })
         .catch((error) => {
