@@ -4,6 +4,7 @@ import Home from "@/components/Home.vue"
 import About from "@/components/About.vue"
 import Where from "@/components/Where.vue"
 import Style from "@/components/Style.vue"
+import Measurement from "@/components/Measurement.vue"
 import Contact from "@/components/Contact.vue"
 import Footer from "@/components/EditFooter.vue"
 
@@ -32,6 +33,11 @@ export default new VueRouter({
       path: '/understanding',
       name: 'Understanding Your Style',
       component: Style,
+    },
+    {
+      path: '/measurements',
+      name: 'Measurements',
+      component: Measurement,
     },
     {
       path: '/contactus',
