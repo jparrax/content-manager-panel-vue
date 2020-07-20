@@ -27,7 +27,7 @@
             <div>
               <b-alert variant="success" :show="showMessage" @dismissed="showMessage=false" dismissible>{{ message }}</b-alert>
             </div>
-            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="submit" variant="primary">Save</b-button>
           </b-form>
         </b-card>
       </b-col>
@@ -80,7 +80,7 @@ export default {
         .put(endpoint, this.contactInfo)
         .then(() => {
           this.getContactUsInfo();
-          this.message = 'Footer Updated';
+          this.message = 'Contact Us Information Updated';
           this.showMessage = true;
         })
         .catch((error) => {
