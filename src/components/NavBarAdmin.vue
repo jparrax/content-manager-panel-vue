@@ -8,6 +8,7 @@
             <b-nav-item id = "item-5" class="nav-text" to="/measurements"><p>Measurements</p></b-nav-item>
             <b-nav-item id = "item-6" class="nav-text" to="/contactus"><p>Contact us</p></b-nav-item>
             <b-nav-item id = "item-7" class="nav-text" to="/footer"><p>Footer</p></b-nav-item>
+            <b-nav-item id = "item-8" class="nav-text" to="/customers"><p>Customers</p></b-nav-item>
             <p class = "copyrights">©2020 Elizabeth By Design</p>
         </b-nav>
     </div>
@@ -72,6 +73,12 @@ export default {
     #item-7{
         position: absolute;
         top: 380px;
+        font-size: 100%;
+        text-align: left;
+    }
+    #item-8{
+        position: absolute;
+        top: 440px;
         font-size: 100%;
         text-align: left;
     }
