@@ -7,6 +7,7 @@ import Style from "@/components/Style.vue"
 import Measurement from "@/components/Measurement.vue"
 import Contact from "@/components/Contact.vue"
 import Footer from "@/components/EditFooter.vue"
+import Customers from "@/components/Customers.vue"
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ export default new VueRouter({
       path: '/footer',
       name: 'Footer',
       component: Footer,
+    },
+    {
+      path: '/customers',
+      name: 'Customers',
+      component: Customers,
     }
   ]
 })
