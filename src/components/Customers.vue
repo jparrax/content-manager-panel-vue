@@ -70,11 +70,21 @@ export default {
         .put(endpoint, item)
         .then((res) => {
           console.log('edit success');
+          this.toast(true);
         })
         .catch((error) => {
           console.error(error);
         });
-    }
+    },
+    toast(append = false) {
+        this.$bvToast.toast(`Customer information saved successfully`, {
+          title: 'Update Saved',
+          toaster: 'b-toaster-top-center',
+          solid: true,
+          appendToast: append,
+          variant: 'success'
+        })
+      }
   },
   created() {
     this.getCustomersInfo();
