@@ -63,7 +63,8 @@ export default {
 </script>
 <style scoped>
     .position-auxiliar{
-        padding-top: 6.7%;
+        padding-top: 10%;
+        min-height: 41vw;
     }
     .my-container{
         text-align: center;
