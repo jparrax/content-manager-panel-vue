@@ -14,7 +14,7 @@
                 <b-form-input
                   :class="object.data.title.ref"
                   type="text"
-                  v-model="object.data.title.ref"
+                  :value="object.data.title.ref"
                   disabled
                 ></b-form-input>
               </b-form-group>
@@ -32,7 +32,7 @@
                             <b-form-input
                               :class="object.data.title.ref"
                               type="text"
-                              v-model="col.title"
+                              :value="col.title"
                             ></b-form-input>
                           </b-form-group>
 
@@ -47,7 +47,8 @@
               <b-button 
                 class="mt-4" 
                 :id="object.data.title.ref"
-                variant="primary">
+                variant="primary"
+                @click="updateDocument(createTitleDocument(getFormRef(), getFormElements()))">
                 Save
               </b-button>
 
@@ -69,7 +70,7 @@
                 <b-form-input
                   :class="object.data.fieldsets.ref"
                   type="text"
-                  v-model="object.data.fieldsets.ref"
+                  :value="object.data.fieldsets.ref"
                   disabled
                 ></b-form-input>
               </b-form-group>
@@ -83,7 +84,7 @@
                       <b-form-input
                         :class="object.data.fieldsets.ref"
                         type="text"
-                        v-model="row.class"
+                        :value="row.class"
                         disabled
                       ></b-form-input>
                     </b-form-group>
@@ -97,7 +98,7 @@
                             <b-form-input
                               :class="object.data.fieldsets.ref"
                               type="text"
-                              v-model="col.title"
+                              :value="col.title"
                             ></b-form-input>
                           </b-form-group>
 
@@ -107,7 +108,7 @@
                             <b-form-textarea
                               :class="object.data.fieldsets.ref"
                               rows="6"
-                              v-model="col.content">
+                              :value="col.content">
                               </b-form-textarea>
                           </b-form-group>
 
@@ -116,7 +117,7 @@
                             <b-form-input
                               :class="object.data.fieldsets.ref"
                               type="text"
-                              v-model="col.cols"
+                              :value="col.cols"
                               disabled
                             ></b-form-input>
                           </b-form-group>
@@ -132,7 +133,8 @@
               <b-button 
                 class="mt-4" 
                 :id="object.data.fieldsets.ref"
-                variant="primary">
+                variant="primary"
+                @click="updateDocument(createFieldsetsDocument(getFormRef(), getFormElements()))">
                 Save
               </b-button>
 
@@ -154,7 +156,7 @@
                 <b-form-input
                   :class="object.data.imgs.ref"
                   type="text"
-                  v-model="object.data.imgs.ref"
+                  :value="object.data.imgs.ref"
                   disabled
                 ></b-form-input>
               </b-form-group>
@@ -168,7 +170,7 @@
                       <b-form-input
                         :class="object.data.imgs.ref"
                         type="text"
-                        v-model="row.class"
+                        :value="row.class"
                         disabled
                       ></b-form-input>
                     </b-form-group>
@@ -182,7 +184,7 @@
                             <b-form-input
                               :class="object.data.imgs.ref"
                               type="text"
-                              v-model="col.class"
+                              :value="col.class"
                               disabled
                             ></b-form-input>
                           </b-form-group>
@@ -191,6 +193,7 @@
                             v-for="(modal, propertyName) in col.modals"
                             :key="modal"
                             :label="propertyName"
+                            disabled
                           >
                             <b-form-input
                               :class="object.data.button.ref"
@@ -220,13 +223,6 @@
                 </b-col>
               </b-row>
 
-              <b-button 
-                class="mt-4" 
-                :id="object.data.imgs.ref"
-                variant="primary">
-                Save
-              </b-button>
-
           </b-form>
         </b-card>
       </b-col>
@@ -245,7 +241,7 @@
                 <b-form-input
                   :class="object.data.button.ref"
                   type="text"
-                  v-model="object.data.button.ref"
+                  :value="object.data.button.ref"
                   disabled
                 ></b-form-input>
               </b-form-group>
@@ -264,7 +260,7 @@
                             <b-form-input
                               :class="object.data.button.ref"
                               type="text"
-                              v-model="col.title"
+                              :value="col.title"
                             ></b-form-input>
                           </b-form-group>
 
@@ -274,7 +270,7 @@
                             <b-form-input
                               :class="object.data.button.ref"
                               type="text"
-                              v-model="col.button"
+                              :value="col.button"
                             ></b-form-input>
                           </b-form-group>
 
@@ -289,7 +285,8 @@
               <b-button 
                 class="mt-4" 
                 :id="object.data.button.ref"
-                variant="primary">
+                variant="primary"
+                @click="updateDocument(createButtonDocument(getFormRef(), getFormElements()))">
                 Save
               </b-button>
 
@@ -304,9 +301,20 @@
             <template v-slot:header>
               <p class="mb-0 font-weight-bold">modals</p>
             </template>
-            <b-form name="modals" :data-ref="modals" @submit="onSubmit">
+            <b-form name="modals" data-ref="modals" @submit="onSubmit">
 
-              <b-row v-for="modal in object.data.modals" :key="modal">
+              <b-form-group
+                    label="Reference"
+                  >
+                    <b-form-input
+                      class="modals"
+                      type="text"
+                      :value="object.data.modals.ref"
+                      disabled
+                    ></b-form-input>
+                  </b-form-group>
+
+              <b-row v-for="modal in object.data.modals.modals" :key="modal">
                 <b-col>
                   <b-card class="mt-3" :header="modal.title">
 
@@ -316,7 +324,7 @@
                       <b-form-input
                         class="modals"
                         type="text"
-                        v-model="modal.ref"
+                        :value="modal.ref"
                         disabled
                       ></b-form-input>
                     </b-form-group>
@@ -327,7 +335,7 @@
                       <b-form-input
                         class="modals"
                         type="text"
-                        v-model="modal.title"
+                        :value="modal.title"
                       ></b-form-input>
                     </b-form-group>
 
@@ -362,7 +370,8 @@
               <b-button 
                 class="mt-4" 
                 id="modals" 
-                variant="primary">
+                variant="primary"
+                @click="updateDocument(createModalsDocument(getFormRef(), getFormElements()))">
                 Save
               </b-button>
 
@@ -400,6 +409,300 @@
       onSubmit(evt) {
         evt.preventDefault()
         alert(JSON.stringify(this.form))
+      },
+      getFormRef() {
+        let event = window.event;
+        let tabRef = document.forms[event.target.getAttribute("id")].getAttribute("data-ref");
+        return tabRef;
+      },
+      getFormElements() {
+        let event = window.event;
+        let formElements = document.forms[event.target.getAttribute("id")].getElementsByClassName(event.target.getAttribute("id"));
+        return formElements;
+      },
+      createTitleDocument(formRef, formElements){
+        let i = 0;
+        let infoToChange = {
+          "ref" : "",
+          "rows" : {
+            "row1": {
+              "cols": {
+                "col1": {
+                  "title": ""
+                }
+              }
+            }
+          }
+        }
+
+        infoToChange.ref = formRef;
+        i++
+        infoToChange.rows.row1.cols.col1.title = formElements[i].value;
+
+        return infoToChange
+      },
+      createFieldsetsDocument(formRef, formElements){
+        let i = 0;
+        let infoToChange = {
+          "ref" : "",
+          "rows" : {
+            "row1": {
+              "class": "",
+              "cols" : {
+                "col1": {
+                  "title" : "",
+                  "content" : "",
+                  "cols" : ""
+                }
+              }
+            },
+            "row2": {
+              "class": "",
+              "cols" : {
+                "col1": {
+                  "title": "",
+                  "content": "",
+                  "cols" : ""
+                },
+                "col2": {
+                  "title": "",
+                  "content": "",
+                  "cols" : ""
+                }
+              }
+            },
+            "row3": {
+              "class": "",
+              "cols":{
+                "col1": {
+                  "title": "",
+                  "content": "",
+                  "cols": "" 
+                },
+                "col2": {
+                  "title": "",
+                  "content": "",
+                  "cols": ""
+                }
+              }
+            }
+          }
+        }
+
+        infoToChange.ref = formRef;
+        i++;
+        infoToChange.rows.row1.class = formElements[i].value;
+        i++;
+        infoToChange.rows.row1.cols.col1.title = formElements[i].value;
+        i++;
+        infoToChange.rows.row1.cols.col1.content = formElements[i].value;
+        i++;
+        infoToChange.rows.row1.cols.col1.cols = formElements[i].value;
+        i++;
+        infoToChange.rows.row2.class = formElements[i].value;
+        i++;
+        infoToChange.rows.row2.cols.col1.title = formElements[i].value;
+        i++;
+        infoToChange.rows.row2.cols.col1.content = formElements[i].value;
+        i++;
+        infoToChange.rows.row2.cols.col1.cols = formElements[i].value;
+        i++;
+        infoToChange.rows.row2.cols.col2.title = formElements[i].value;
+        i++;
+        infoToChange.rows.row2.cols.col2.content = formElements[i].value;
+        i++;
+        infoToChange.rows.row2.cols.col2.cols = formElements[i].value;
+        i++;
+        infoToChange.rows.row3.class = formElements[i].value;
+        i++;
+        infoToChange.rows.row3.cols.col1.title = formElements[i].value;
+        i++;
+        infoToChange.rows.row3.cols.col1.content = formElements[i].value;
+        i++;
+        infoToChange.rows.row3.cols.col1.cols = formElements[i].value;
+        i++;
+        infoToChange.rows.row3.cols.col2.title = formElements[i].value;
+        i++;
+        infoToChange.rows.row3.cols.col2.content = formElements[i].value;
+        i++;
+        infoToChange.rows.row3.cols.col2.cols = formElements[i].value;
+
+        return infoToChange;
+      },
+      createButtonDocument(formRef, formElements){
+        let i = 0;
+        let infoToChange = {
+          "ref" : "",
+          "rows" : {
+            "row1": {
+              "cols" : {
+                "col1": {
+                  "title": "",
+                  "button": ""
+                }
+              }
+            }
+          }
+        }
+
+        infoToChange.ref = formRef;
+        i++;
+        infoToChange.rows.row1.cols.col1.title = formElements[i].value;
+        i++;
+        infoToChange.rows.row1.cols.col1.button = formElements[i].value;
+
+        return infoToChange
+      },
+      createModalsDocument(formRef, formElements){
+        let i = 0;
+        let infoToChange = {
+          "ref" : "",
+          "modals" : {
+            "modal1": {
+              "ref": "",
+              "title" : "",
+              "titles": {
+                "title1" : "",
+                "title2" : ""
+              },
+              "paragraphs": {
+                "paragraph1" : "",
+                "paragraph2" : ""
+              }
+            },
+            "modal2": {
+              "ref": "",
+              "title" : "",
+              "titles": {
+                "title1" : "",
+                "title2" : ""
+              },
+              "paragraphs": {
+                "paragraph1" : "",
+                "paragraph2" : ""
+              }
+            },
+            "modal3": {
+              "ref": "",
+              "title" : "",
+              "titles": {
+                "title1" : ""
+              },
+              "paragraphs": {
+                "paragraph1" : ""
+              }
+            },
+            "modal4": {
+              "ref": "",
+              "title" : "",
+              "titles": {
+                "title1" : ""
+              },
+              "paragraphs": {
+                "paragraph1" : ""
+              }
+            },
+            "modal5": {
+              "ref": "",
+              "title" : "",
+              "titles": {
+                "title1" : "",
+                "title2" : ""
+              },
+              "paragraphs": {
+                "paragraph1" : "",
+                "paragraph2": ""
+              }
+            },
+            "modal6": {
+              "ref": "",
+              "title" : "",
+              "titles": {
+                "title1" : ""
+              },
+              "paragraphs": {
+                "paragraph1" : ""
+              }
+            }
+          }
+        }
+
+        infoToChange.ref = formRef;
+        i++;
+        infoToChange.modals.modal1.ref = formElements[i].value;
+        i++;
+        infoToChange.modals.modal1.title = formElements[i].value;
+        i++;
+        infoToChange.modals.modal1.titles.title1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal1.titles.title2 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal1.paragraphs.paragraph1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal1.paragraphs.paragraph2 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal2.ref = formElements[i].value;
+        i++;
+        infoToChange.modals.modal2.title = formElements[i].value;
+        i++;
+        infoToChange.modals.modal2.titles.title1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal2.titles.title2 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal2.paragraphs.paragraph1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal2.paragraphs.paragraph2 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal3.ref = formElements[i].value;
+        i++;
+        infoToChange.modals.modal3.title = formElements[i].value;
+        i++;
+        infoToChange.modals.modal3.titles.title1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal3.paragraphs.paragraph1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal4.ref = formElements[i].value;
+        i++;
+        infoToChange.modals.modal4.title = formElements[i].value;
+        i++;
+        infoToChange.modals.modal4.titles.title1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal4.paragraphs.paragraph1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal5.ref = formElements[i].value;
+        i++;
+        infoToChange.modals.modal5.title = formElements[i].value;
+        i++;
+        infoToChange.modals.modal5.titles.title1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal5.titles.title2 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal5.paragraphs.paragraph1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal5.paragraphs.paragraph2 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal6.ref = formElements[i].value;
+        i++;
+        infoToChange.modals.modal6.title = formElements[i].value;
+        i++;
+        infoToChange.modals.modal6.titles.title1 = formElements[i].value;
+        i++;
+        infoToChange.modals.modal6.paragraphs.paragraph1 = formElements[i].value;
+        i++;
+
+        return infoToChange
+      },
+      updateDocument(infoToChange){
+        const endpoint= `http://localhost:5000/measurement/${this.id}`;
+        axios
+        .put(endpoint, infoToChange)
+        .then(() => {
+          window.alert('Successfully Updated');
+        })
+        .catch((error) => {
+          console.error(error);
+          window.alert('There has been an error');
+        });
       }
     },
     created() {
