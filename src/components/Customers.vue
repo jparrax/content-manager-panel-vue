@@ -45,6 +45,7 @@ export default {
         {key: "name"},
         {key: "email"},
         {key: "phone"},
+        {key: "date"},
         {key: "notes"},
         {key: "save"}
       ]
