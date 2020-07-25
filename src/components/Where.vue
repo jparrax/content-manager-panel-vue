@@ -17,6 +17,7 @@
                   :class="tab.title"
                   type="text"
                   v-model="tab.title"
+                  disabled
                 ></b-form-input>
               </b-form-group>
 
@@ -64,6 +65,8 @@
                         </b-form-input>
                     </b-form-group>
 
+                    <b-form-file class="img mt-3 mb-3" accept=".jpg" plain></b-form-file>
+
                     <b-form-group
                       label="Image 2:"
                     >
@@ -74,6 +77,8 @@
                         disabled>
                         </b-form-input>
                     </b-form-group>
+
+                    <b-form-file class="img mt-3" accept=".jpg" plain></b-form-file>
 
                   </b-card>
                 </b-col>
@@ -170,6 +175,41 @@
         .catch((error) => {
           console.error(error);
           window.alert('There has been an error');
+        });
+
+        let formImgs = document.forms[event.target.getAttribute("id")].getElementsByClassName("img");
+        let formData = new FormData();
+        formData.append("dir",event.target.getAttribute("id").toLowerCase());
+        for(let img in formImgs){
+          try{
+            if(formImgs[img].files.length != 0){
+              formData.append(parseInt(img) + 1,formImgs[img].files[0]);
+            };
+          }
+          catch(err){
+            console.log(err);  
+          }
+        }
+
+        for(let pair of formData.entries()) {
+          console.log(pair[0]+ ', '+ pair[1]); 
+        }
+
+        const imgendpoint = `http://localhost:5000/imgs`;
+
+        axios
+        .post(imgendpoint,formData,
+          {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+          }
+        )
+        .then(function(){
+          location.reload();
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
         });
       }
     },
