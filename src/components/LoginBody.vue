@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     logIn: function () {
-        if(this.username == "admin" && this.password == "admin"){
+        if(this.username == "kerry" && this.password == "*A1m5Z9*"){
             bus.$emit('logIn')
         }else{
             alert("Username or Password not found!");
