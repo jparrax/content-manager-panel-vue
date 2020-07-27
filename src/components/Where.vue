@@ -1,13 +1,13 @@
 <template>
   <b-container>
 
-    <b-row v-for="tab in object.data" :key="tab">
+    <b-row v-for="(tab, propertyName) in object.data.where" :key="tab">
       <b-col>
         <b-card class="mt-3" header-bg-variant="primary" border-variant="primary">
             <template v-slot:header>
               <p class="mb-0 font-weight-bold">{{ tab.title }}</p>
             </template>
-            <b-form :name="tab.title" :data-ref="tab.ref" @submit="onSubmit">
+            <b-form :name="tab.title" :data-array="propertyName" @submit="onSubmit">
 
               <!-- Tab info -->
               <b-form-group
@@ -32,65 +32,17 @@
               </b-form-group>
 
               <!-- Cards -->
-              <b-row v-for="card in tab.cards" :key="card">
-                <b-col>
-                  <b-card class="mt-3" :header="card.title">
-                    <b-form-group
-                      label="Title:"
-                    >
-                      <b-form-input
-                        :class="tab.title"
-                        type="text"
-                        v-model="card.title">
-                        </b-form-input>
-                    </b-form-group>
+              <card v-for="card in tab.cards" :key="card" :title="tab.title" :card="card"></card>
 
-                    <b-form-group 
-                      label="Description:">
-                      <b-form-textarea
-                        :class="tab.title"
-                        rows="6"
-                        v-model="card.content">
-                        </b-form-textarea>
-                    </b-form-group>
-                    
-                    <b-form-group
-                      label="Image 1:"
-                    >
-                      <b-form-input
-                        :class="tab.title"
-                        type="text"
-                        v-model="card.img1"
-                        disabled>
-                        </b-form-input>
-                    </b-form-group>
+              <addcard :title="tab.title"></addcard>
 
-                    <b-form-file class="img mt-3 mb-3" accept=".jpg" plain></b-form-file>
-
-                    <b-form-group
-                      label="Image 2:"
-                    >
-                      <b-form-input
-                        :class="tab.title"
-                        type="text"
-                        v-model="card.img2"
-                        disabled>
-                        </b-form-input>
-                    </b-form-group>
-
-                    <b-form-file class="img mt-3" accept=".jpg" plain></b-form-file>
-
-                  </b-card>
-                </b-col>
-              </b-row>
-
-              <!-- Button -->
               <b-button 
-                class="mt-4" 
+                class="mt-4 ml-2" 
+                variant="success" 
+                @click="updateTab"
                 :id="tab.title" 
-                variant="primary" 
-                @click="getFormElements">
-                Save
+                >
+                Update
               </b-button>
 
           </b-form>
@@ -103,8 +55,13 @@
 
 <script>
   import axios from 'axios';
-
+  import addcard from './AddCard.vue';
+  import card from './Card.vue'
   export default {
+    components: {
+      addcard,
+      card
+    },
     data() {
       return {
         id: "",        
@@ -128,9 +85,9 @@
         evt.preventDefault()
         alert(JSON.stringify(this.form))
       },
-      getFormElements() {
+      updateTab() {
         let event = window.event;
-        let tabRef = document.forms[event.target.getAttribute("id")].getAttribute("data-ref");
+        let arrayNo = document.forms[event.target.getAttribute("id")].getAttribute("data-array");
         let formElements = document.forms[event.target.getAttribute("id")].getElementsByClassName(event.target.getAttribute("id"));
         let i = 0;
         let j = 1;
@@ -138,47 +95,49 @@
         const endpoint= `http://localhost:5000/where/${this.id}`;
         let infoToChange = {
           ref: '',
-          title: '',
-          width: '',
-          cards: {}
+          tab:{
+            title: '',
+            width: '',
+            cards: []
+          }
         }
         
         // Give values to title and width
-        infoToChange.ref = tabRef;
-        infoToChange.title = formElements[i].value;
+        infoToChange.ref = "where." + arrayNo;
+        infoToChange.tab.title = formElements[i].value;
         i++;
-        infoToChange.width = formElements[i].value;
+        infoToChange.tab.width = formElements[i].value;
         i++;
 
         // Create cards
         for(j; j <= numberOfCards; j++){
-
-          infoToChange.cards["card" + j] = {};
-
-          infoToChange.cards["card" + j]["title"] = formElements[i].value;
+          let card = {};
+          card["title"] = formElements[i].value;
           i++;
-          infoToChange.cards["card" + j]["content"] = formElements[i].value;
+          card["content"] = formElements[i].value;
           i++;
-          infoToChange.cards["card" + j]["img1"] = formElements[i].value;
+          card["img1"] = formElements[i].value;
           i++;
-          infoToChange.cards["card" + j]["img2"] = formElements[i].value;
+          card["img2"] = formElements[i].value;
           i++;
-
+          infoToChange.tab.cards.push(card);
         }
 
         // Send request
         axios
         .put(endpoint, infoToChange)
         .then(() => {
-          window.alert(event.target.getAttribute("id") + ' Updated');
+          window.alert("Content in "+ event.target.getAttribute("id") + ' updated');
         })
         .catch((error) => {
           console.error(error);
           window.alert('There has been an error');
         });
 
+        // Update images
         let formImgs = document.forms[event.target.getAttribute("id")].getElementsByClassName("img");
         let formData = new FormData();
+        const imgendpoint = `http://localhost:5000/imgs`;
         formData.append("dir",event.target.getAttribute("id").toLowerCase());
         for(let img in formImgs){
           try{
@@ -190,13 +149,6 @@
             console.log(err);  
           }
         }
-
-        for(let pair of formData.entries()) {
-          console.log(pair[0]+ ', '+ pair[1]); 
-        }
-
-        const imgendpoint = `http://localhost:5000/imgs`;
-
         axios
         .post(imgendpoint,formData,
           {
@@ -206,12 +158,13 @@
           }
         )
         .then(function(){
+          window.alert("Images updated")
           location.reload();
         })
         .catch(function(){
           console.log('FAILURE!!');
         });
-      }
+      },
     },
     created() {
       this.getHomeInfo();
