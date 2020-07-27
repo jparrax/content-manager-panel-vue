@@ -54,7 +54,7 @@
       
 
     </b-row>
-    <b-row class="mt-2">
+    <b-row class="ml-1 mt-2">
       <b-col>
         <b-button variant="warning" @click="addCard">Add</b-button>
       </b-col>

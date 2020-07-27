@@ -37,7 +37,7 @@
               <addcard :title="tab.title"></addcard>
 
               <b-button 
-                class="mt-4 ml-2" 
+                class="mt-3 ml-2" 
                 variant="success" 
                 @click="updateTab"
                 :id="tab.title" 
